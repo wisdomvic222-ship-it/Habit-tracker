@@ -3,9 +3,20 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { ChevronLeft, ChevronRight, Download, RotateCcw, Trash2 } from 'lucide-react';
 
 const HabitTracker = () => {
-  const [habits, setHabits] = useState([]);
-  const [avoidFoods, setAvoidFoods] = useState([]);
-  const [monitorFoods, setMonitorFoods] = useState([]);
+  const [habits, setHabits] = useState(() => {
+    const saved = localStorage.getItem('habits');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [avoidFoods, setAvoidFoods] = useState(() => {
+    const saved = localStorage.getItem('avoidFoods');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [monitorFoods, setMonitorFoods] = useState(() => {
+    const saved = localStorage.getItem('monitorFoods');
+    return saved ? JSON.parse(saved) : [];
+  });
 
   const [logs, setLogs] = useState(() => {
     const saved = localStorage.getItem('habitLogs');
@@ -41,6 +52,18 @@ const HabitTracker = () => {
   useEffect(() => {
     localStorage.setItem('finances', JSON.stringify(finances));
   }, [finances]);
+
+  useEffect(() => {
+    localStorage.setItem('habits', JSON.stringify(habits));
+  }, [habits]);
+
+  useEffect(() => {
+    localStorage.setItem('avoidFoods', JSON.stringify(avoidFoods));
+  }, [avoidFoods]);
+
+  useEffect(() => {
+    localStorage.setItem('monitorFoods', JSON.stringify(monitorFoods));
+  }, [monitorFoods]);
 
   const dateKey = (date) => date.toISOString().split('T')[0];
   const todayKey = dateKey(currentDate);
